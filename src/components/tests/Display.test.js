@@ -6,7 +6,7 @@ import { exampleShowData } from "./testData"
 import userEvent from '@testing-library/user-event'
 
 test('Display get butonu varmi sezon sayisi', () => {
-    render(<Display />);
+    render(<Display displayFun={exampleShowData}/>);
     userEvent.click(screen.getByTestId("display-cont-button"));
     setTimeout(() => {
     expect(screen.getAllByTestId("season-option").length)
