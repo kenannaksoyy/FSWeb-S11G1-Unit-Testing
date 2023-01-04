@@ -3,9 +3,10 @@ import Episodes from "./Episodes";
 import Loading from './Loading';
 
 const Show = (props) => {
-  const { handleSelect, selectedSeason, show } = props;
+  const { handleSelect, selectedSeason,show } = props;
+  //const show ="none";
 
-  if (!show)
+  if (show==="none" || !show)
     return <Loading />
 
   return (
@@ -17,6 +18,7 @@ const Show = (props) => {
       <select onChange={handleSelect} name="seasons" id="seasons">
         <option value="none"></option>
         {
+          
           show.seasons.map(season => {
             return (<option data-testid="season-option" key={season.id} value={season.id}>{season.name}</option>);
           })

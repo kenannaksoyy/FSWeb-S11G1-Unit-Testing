@@ -2,27 +2,51 @@ import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Episode from "./../Episode";
+import {exampleEpisodeData,exampleEpisodeDataV2,defImg} from "./testData";
 
-test("hatasız çalışıyor", () => {});
 
-test("prop olarak test data gönderildiğnde render ediliyor", () => {});
 
-test("image tanımlanmadığında default image render ediliyor", () => {});
+const testIDBul = (testID) => {
+    return screen.getByTestId(testID)
+}
 
-// ----- ÖRNEK EPISODE TEST NESNESİ -----
-// const exampleEpisodeData = {
-//   airdate: "2016-07-15",
-//   airstamp: "2016-07-15T12:00:00+00:00",
-//   airtime: "",
-//   id: 553946,
-//   image: "https://static.tvmaze.com/uploads/images/medium_landscape/342/855786.jpg",
-//   name: "Chapter One: The Vanishing of Will Byers",
-//   number: 1,
-//   rating: { average: 8.2 },
-//   runtime: 49,
-//   season: 1,
-//   summary:
-//     "A young boy mysteriously disappears, and his panicked mother demands that the police find him. Meanwhile, the boy's friends conduct their own search, and meet a mysterious girl in the forest.",
-//   type: "regular",
-//   url: "https://www.tvmaze.com/episodes/553946/stranger-things-1x01-chapter-one-the-vanishing-of-will-byers",
-// };
+const testIDTextBul =(testID) =>{
+    return screen.getByTestId(testID).textContent;
+}
+
+describe("Duzgun Veriyle Calisiyorumyu", () => {
+    beforeEach(()=>{
+        render(<Episode episode={exampleEpisodeData}/>);
+    });
+
+    test("Sorunsuz render oluyormu", () => {
+        //<Episode />
+        expect(testIDBul("episode-cont"))
+        .toBeInTheDocument();        
+    });
+    
+    test("İsim Kontrolu", () => {
+        expect(testIDTextBul("episode-cont-name"))
+        .toBe(exampleEpisodeData["name"]);
+    });
+
+    test("Number Kontrolu",() =>{
+        expect(testIDBul("episode-cont-number").textContent)
+        .toBe(`Season ${exampleEpisodeData["season"]}, Episode ${exampleEpisodeData["number"]}`);     
+    });
+})
+
+describe("Farkli Veriyle Calisiyormu", () => {
+    beforeEach(()=>{
+        render(<Episode episode={exampleEpisodeDataV2}/>);
+    });
+    test("image tanımlanmadığında default image render ediliyor", () => {
+        expect(testIDBul("episode-cont-img").src)
+        .toBe(defImg);
+    });
+    test("İsim Kontrolu", () => {
+        expect(testIDTextBul("episode-cont-name"))
+        .toBe(exampleEpisodeDataV2["name"]);
+    }); 
+  
+})
